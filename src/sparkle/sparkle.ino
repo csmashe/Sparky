@@ -92,14 +92,21 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
     }else{
       if(pattern == BfButton::LONG_PRESS && buttonId == 1){
         SelectMode = false;
+
+        //send command for change
         //display use 
       }
 
     if(buttonId == 2){
         //next 
       }
-      if(buttonId == 3){
+     if(buttonId == 3){
         //previous
+     }
+
+      if(pattern == BfButton::LONG_PRESS && buttonId == 4){
+        SelectMode = false;
+        //exit out with no changes
       }
       
       
