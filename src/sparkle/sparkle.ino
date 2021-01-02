@@ -7,7 +7,7 @@
 #include <BfButton.h> //https://github.com/mickey9801/ButtonFever
 
 // Device Info Definitions
-const String DEVICE_NAME = "TinderBox";
+const String DEVICE_NAME = "Sparkel";
 const String VERSION = "0.3.1";
 
 // Check ESP32 Bluetooth configuration
@@ -48,11 +48,11 @@ bool connected;
 
 //new Variables
 char* PresetName; char* PresetName1; char* PresetName2;
+char* CurrentPresetName;  char* CurrentPresetName1; char* CurrentPresetName2;
 char* FXDriveType;
 char* FXModType;
 char* FXDelayType;
 char* FXReverbType;
-char* AmpType; int AmpGain=0; int AmpVolume=0;
 byte FXDriveStatus[]={FX_OFF};
 byte FXModStatus[]={FX_OFF};
 byte FXDelayStatus[]={FX_OFF};
@@ -60,6 +60,8 @@ byte FXReverbStatus[]={FX_OFF};
 bool SelectMode = true;
 
 void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
+   
+   
    //get the button that was pressed
    int buttonId=0; 
    int pressed_btn_gpio = btn->getID();
@@ -72,8 +74,15 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
     if(!SelectMode){
       //if long press go into select mode
       if(pattern == BfButton::LONG_PRESS && buttonId == 1){
+
+        //store the current preset info for later
+        CurrentPresetName = PresetName;
+        CurrentPresetName1 = PresetName1;
+        CurrentPresetName2 = PresetName2;
+        
         SelectMode = true;
-        //display select info
+
+        printPresetSelectScreen();
       }
 
       //toggle the fx
@@ -115,7 +124,7 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
    
   //remove old code below
   // If single press detected
-  if(pattern == BfButton::SINGLE_PRESS) {
+  /*if(pattern == BfButton::SINGLE_PRESS) {
     int pressed_btn_gpio = btn->getID();
     // Determine which button was pressed
     for(int i = 0; i< NUM_OF_BUTTONS; i++) {
@@ -126,38 +135,99 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
       }
     }
   }
+  */
   //remove old code above
 }
 
-void sendLoadTonePresetCmd(byte* loadTonePresetCmd) {
-  // Send load tone preset command to amp
-  SerialBT.write(loadTonePresetCmd, LOAD_TONE_PRESET_CMD_SIZE);
-  // Update device screen with the new tone preset selection
-  updateTonePresetScreen();
+void pressNext(){
+
+    if(PresetName == "BangBang"){
+        PresetName = "BBKing";
+        PresetName1 = "BB King";
+    }else if(PresetName == "BBKing"){
+        PresetName = "BetterCallSaul";
+        PresetName1 = "Better Call Saul";
+    }else if(PresetName == "BetterCallSaul"){
+        PresetName = "BreezyBlues";
+        PresetName1 = "Breezy Blues";
+    }else if(PresetName == "BreezyBlues"){
+        PresetName = "BrightTweed";
+        PresetName1 = "Bright Tweed";
+    }else if(PresetName == "BrightTweed"){
+        PresetName = "DancingInARoom";
+        PresetName1 = "Dancing In A Room";
+    }else if(PresetName == "DancingInARoom"){
+        PresetName = "FuzzyJam";
+        PresetName1 = "Fuzzy Jam";
+    }else if(PresetName == "FuzzyJam"){
+        PresetName = "Hendrix";
+        PresetName1 = "Hendrix";
+    }else if(PresetName == "Hendrix"){
+        PresetName = "IrishOne";
+        PresetName1 = "Irish One";
+    }else if(PresetName == "IrishOne"){
+        PresetName = "LeFreak";
+        PresetName1 = "Le Freak";
+    }else if(PresetName == "LeFreak"){
+        PresetName = "RHCP";
+        PresetName1 = "Red Hot Chilli Peppers";
+    }else if(PresetName == "RHCP"){
+        PresetName = "Santana";
+        PresetName1 = "Santana";
+    }else if(PresetName == "Santana"){
+        PresetName = "SilverShip";
+        PresetName1 = "Silver Ship";
+    }else if(PresetName == "SilverShip"){
+        PresetName = "StrayCatStrut";
+        PresetName1 = "Stray Cat Strut";
+    }else if(PresetName == "StrayCatStrut"){
+        PresetName = "Sultans";
+        PresetName1 = "Sultans of Swing";
+    }else if(PresetName == "Sultans"){
+        PresetName = "Surf";
+        PresetName1 = "Surf";
+    }else if(PresetName == "Surf"){
+        PresetName = "WholeLottaLove";
+        PresetName1 = "Whole Lotta Love";
+    }else if(PresetName == "WholeLottaLove"){
+        PresetName = "BangBang";
+        PresetName1 = "Bang Bang";
+    }
+
+    printPresetSelectScreen();
+  
 }
 
-void updateTonePresetScreen() {
-  // If a tone selection has been made (i.e. selected_tone_preset is not zero)
-  if (selected_tone_preset > 0) {
-    // Show "Tone Preset <selection_num>" message on device screen
-    oled.clear();
-    oled.setFont(ArialMT_Plain_16);
-    oled.setTextAlignment(TEXT_ALIGN_CENTER);
-    oled.drawString(64, 0, "Tone Preset");
-    oled.setFont(Roboto_Mono_Bold_52);
-    oled.setTextAlignment(TEXT_ALIGN_CENTER);
-    oled.drawString(64, 10, String(selected_tone_preset));
-    oled.display();
-  } else if (selected_tone_preset == 0) { // Else if no tone selection has been made yet
-    // Show "Select Preset" message on device screen
-    oled.clear();
-    oled.setFont(ArialMT_Plain_24);
-    oled.setTextAlignment(TEXT_ALIGN_CENTER);
-    oled.drawString(64, 6, "Select");
-    oled.drawString(64, 30, "Preset");
-    oled.display();
-  }
+void printPresetSelectScreen(){
+
+   oled.clear();
+   oled.setFont(ArialMT_Plain_16);
+   oled.drawString(0, 0, "Current Preset");
+   oled.drawString(0, 25, PresetName1);
+   oled.drawString(0, 45, PresetName2);
 }
+
+void printPresetToOLED() {
+
+  oled.clear();
+
+  oled.setFont(ArialMT_Plain_16);
+  if (FXDriveStatus[0]==FX_ON) oled.drawString(0, 0, "Dr");
+  if (FXModStatus[0]==FX_ON) oled.drawString(25, 0, "Mod");
+  if (FXDelayStatus[0]==FX_ON) oled.drawString(65, 0, "Rev");
+  if (FXReverbStatus[0]==FX_ON) oled.drawString(105, 0, "Del");
+
+  //show the preset name
+  //oled.setTextAlignment(TEXT_ALIGN_CENTER);
+  oled.drawString(0, 25, PresetName1);
+  oled.drawString(0, 45, PresetName2);
+  
+  
+  oled.display();
+}
+
+
+
 
 void displayStartup() {
   // Initialize device OLED display, and flip screen, as OLED library starts "upside-down" (for some reason?)
@@ -237,7 +307,7 @@ void connectToAmp() {
       delay(2000);
       
       // Display inital Tone Preset Screen
-      updateTonePresetScreen();
+      printPresetToOLED();
     } else { // If amp is not found, or other connection issue occurs
       // Set 'connected' to false to continue amp connection loop
       connected = false;
@@ -286,4 +356,27 @@ void loop() {
       SerialBT.read();
     }
   }
+}
+
+//Presets
+void SetPresetBangBang(boolean toggle_me) {
+  if (PresetName=="BangBang" and toggle_me) {SetPresetRHCP();return;}
+
+  PresetName="BangBang"; PresetName1="A Bang"; PresetName2="2 Bang";
+
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Tremolo"; FXModStatus[0]=FX_ON;
+  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
+  
+  AmpType="BlackfaceDuo"; AmpGain=6; AmpVolume=6;
+  
+
+  printPresetToOLED();
+  print_preset_debug();
+
+  SerialBT.write(BangBangA,sizeof(BangBangA)); ReadSparkResponse();
+  SerialBT.write(BangBangB,sizeof(BangBangB)); ReadSparkResponse();
+  SerialBT.write(BangBangC,sizeof(BangBangC)); ReadSparkResponse();
+  SerialBT.write(BangBangD,sizeof(BangBangD)); ReadSparkResponse();
 }
