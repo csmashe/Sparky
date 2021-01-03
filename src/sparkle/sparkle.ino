@@ -60,6 +60,8 @@ byte FXDelayStatus[]={FX_OFF};
 byte FXReverbStatus[]={FX_OFF};
 bool SelectMode = false;
 
+
+//Functions On Press Of One Of The 4 Buttons
 void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
      
    
@@ -262,6 +264,7 @@ void pressNext(){
   
 }
 
+//Show The Preset Selection Screen
 void printPresetSelectScreen(){
 
    oled.clear();
@@ -273,6 +276,7 @@ void printPresetSelectScreen(){
     oled.display();
 }
 
+//Show The Selected Preset Screen And The Toggles For The Pedals
 void printPresetToOLED() {
 
   oled.clear();
@@ -294,7 +298,7 @@ void printPresetToOLED() {
 
 
 
-
+//Start The Display
 void displayStartup() {
   // Initialize device OLED display, and flip screen, as OLED library starts "upside-down" (for some reason?)
   oled.init();
@@ -313,6 +317,7 @@ void displayStartup() {
   delay(4000);
 }
 
+//Set Up Buttons
 void inputSetup() {
   // Setup callback for single press detection on all four input buttons
   for(int i = 0; i < NUM_OF_BUTTONS; i++) {
@@ -321,6 +326,8 @@ void inputSetup() {
   }
 }
 
+
+//Button Event Call Back
 void btEventCallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
   // On BT connection close
   if(event == ESP_SPP_CLOSE_EVT ){
@@ -332,6 +339,7 @@ void btEventCallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
   }
 }
 
+//Initialize Bluetooth
 void btInit() {
   // Register BT event callback method
   SerialBT.register_callback(btEventCallback);
@@ -349,6 +357,7 @@ void btInit() {
   }
 }
 
+//Conect To Spark Amp
 void connectToAmp() {
   // Loop until device establishes connection with amp
   while(!connected) {
@@ -396,6 +405,8 @@ void connectToAmp() {
   }
 }
 
+
+
 void setup() {
   // Start serial debug console monitoring
   Serial.begin(115200);
@@ -429,6 +440,7 @@ void loop() {
   }
 }
 
+//Print Debug Values To Screen
 void printDebug(String value){
 
   if(!debug) return;
