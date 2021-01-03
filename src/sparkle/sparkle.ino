@@ -4,6 +4,7 @@
 #include "BluetoothSerial.h" // https://github.com/espressif/arduino-esp32
 #include "font.h"
 #include "spark.h"
+#include "presets.h"
 #include <BfButton.h> //https://github.com/mickey9801/ButtonFever
 
 // Device Info Definitions
@@ -45,7 +46,7 @@ BluetoothSerial SerialBT;
 // Device State Variables
 int selected_tone_preset;  //remove?
 bool connected;
-
+bool debug = true;
 //new Variables
 char* PresetName; char* PresetName1; char* PresetName2;
 char* CurrentPresetName;  char* CurrentPresetName1; char* CurrentPresetName2;
@@ -57,10 +58,10 @@ byte FXDriveStatus[]={FX_OFF};
 byte FXModStatus[]={FX_OFF};
 byte FXDelayStatus[]={FX_OFF};
 byte FXReverbStatus[]={FX_OFF};
-bool SelectMode = true;
+bool SelectMode = false;
 
 void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
-   
+     
    
    //get the button that was pressed
    int buttonId=0; 
@@ -71,74 +72,137 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
       }
     }
 
+    //printDebug(String(pressed_btn_gpio));
+
     if(!SelectMode){
       //if long press go into select mode
-      if(pattern == BfButton::LONG_PRESS && buttonId == 1){
-
+      printDebug(String(pattern));
+      if(pattern == BfButton::LONG_PRESS && buttonId == 0){
+        //printDebug("Long Press Select Mode");
         //store the current preset info for later
         CurrentPresetName = PresetName;
         CurrentPresetName1 = PresetName1;
         CurrentPresetName2 = PresetName2;
         
         SelectMode = true;
-
+       
         printPresetSelectScreen();
+        return;
       }
 
       //toggle the fx
-      if(buttonId == 1){
+      if(buttonId == 0){
         //toggle drive
+        printDebug("toggle drive");
+      }
+      if(buttonId == 1){
+        //toggle mod
+        printDebug("toggle mod");
       }
       if(buttonId == 2){
-        //toggle mod
+        //toggle delay
+        printDebug("toggle delay");
       }
       if(buttonId == 3){
-        //toggle delay
-      }
-      if(buttonId == 4){
         //toggle reverb
+        printDebug("toggle reverb");
       }
     }else{
-      if(pattern == BfButton::LONG_PRESS && buttonId == 1){
+      if(pattern == BfButton::LONG_PRESS && buttonId == 0){
         SelectMode = false;
+
+        printDebug("save preset");
 
         //send command for change
         //display use 
       }
 
-    if(buttonId == 2){
-        //next 
+      if(buttonId == 1){
+        // printDebug("previous");
+         pressPrevious();
+       
       }
-     if(buttonId == 3){
-        //previous
-     }
-
-      if(pattern == BfButton::LONG_PRESS && buttonId == 4){
+      if(buttonId == 2){
+         //printDebug("next");
+          pressNext();
+      }
+  
+      if(pattern == BfButton::LONG_PRESS && buttonId == 3){
         SelectMode = false;
-        //exit out with no changes
+        //set back to what we where using and exit
+        PresetName = CurrentPresetName;
+        PresetName1 = CurrentPresetName1;
+        PresetName2 = CurrentPresetName2;
+        printPresetToOLED();  
       }
       
       
     }
 
-   
-  //remove old code below
-  // If single press detected
-  /*if(pattern == BfButton::SINGLE_PRESS) {
-    int pressed_btn_gpio = btn->getID();
-    // Determine which button was pressed
-    for(int i = 0; i< NUM_OF_BUTTONS; i++) {
-      // Don't send a cmd to change the tone preset if it is already selected
-      if (pressed_btn_gpio == BUTTON_GPI0_LIST[i] && selected_tone_preset != i+1) {
-        selected_tone_preset = i+1;
-        sendLoadTonePresetCmd(LOAD_TONE_PRESET_LIST[i]);
-      }
-    }
-  }
-  */
-  //remove old code above
+ 
 }
 
+//Press The Previous Button in Select Mode
+void pressPrevious(){
+
+    if(PresetName == "BangBang"){
+        PresetName = "WholeLottaLove";
+        PresetName1 = "Whole Lotta Love";
+    }else if(PresetName == "BBKing"){
+        PresetName = "BangBang";
+        PresetName1 = "Bang Bang";
+    }else if(PresetName == "BetterCallSaul"){
+        PresetName = "BBKing";
+        PresetName1 = "BB King";
+    }else if(PresetName == "BreezyBlues"){
+        PresetName = "BetterCallSaul";
+        PresetName1 = "Better Call Saul";
+    }else if(PresetName == "BrightTweed"){
+        PresetName = "BreezyBlues";
+        PresetName1 = "Breezy Blues";
+    }else if(PresetName == "DancingInARoom"){
+        PresetName = "BrightTweed";
+        PresetName1 = "Bright Tweed";
+    }else if(PresetName == "FuzzyJam"){
+        PresetName = "DancingInARoom";
+        PresetName1 = "Dancing In A Room";
+    }else if(PresetName == "Hendrix"){
+        PresetName = "FuzzyJam";
+        PresetName1 = "Fuzzy Jam";
+    }else if(PresetName == "IrishOne"){
+        PresetName = "Hendrix";
+        PresetName1 = "Hendrix";
+    }else if(PresetName == "LeFreak"){
+        PresetName = "IrishOne";
+        PresetName1 = "Irish One";
+    }else if(PresetName == "RHCP"){
+        PresetName = "LeFreak";
+        PresetName1 = "Le Freak";
+    }else if(PresetName == "Santana"){
+        PresetName = "RHCP";
+        PresetName1 = "Red Hot Chilli Peppers";
+    }else if(PresetName == "SilverShip"){
+        PresetName = "Santana";
+        PresetName1 = "Santana";
+    }else if(PresetName == "StrayCatStrut"){
+        PresetName = "SilverShip";
+        PresetName1 = "Silver Ship";
+    }else if(PresetName == "Sultans"){
+        PresetName = "StrayCatStrut";
+        PresetName1 = "Stray Cat Strut";
+    }else if(PresetName == "Surf"){
+        PresetName = "Sultans";
+        PresetName1 = "Sultans of Swing";
+    }else if(PresetName == "WholeLottaLove"){
+        PresetName = "Surf";
+        PresetName1 = "Surf";
+    }
+
+    printPresetSelectScreen();
+  
+}
+
+//Press The Next Button in Select Mode
 void pressNext(){
 
     if(PresetName == "BangBang"){
@@ -202,9 +266,11 @@ void printPresetSelectScreen(){
 
    oled.clear();
    oled.setFont(ArialMT_Plain_16);
-   oled.drawString(0, 0, "Current Preset");
-   oled.drawString(0, 25, PresetName1);
-   oled.drawString(0, 45, PresetName2);
+   oled.setTextAlignment(TEXT_ALIGN_CENTER);
+   oled.drawString(64, 0, "Current Preset");
+   oled.drawString(64, 25, PresetName1);
+   oled.drawString(64, 45, PresetName2);
+    oled.display();
 }
 
 void printPresetToOLED() {
@@ -218,9 +284,9 @@ void printPresetToOLED() {
   if (FXReverbStatus[0]==FX_ON) oled.drawString(105, 0, "Del");
 
   //show the preset name
-  //oled.setTextAlignment(TEXT_ALIGN_CENTER);
-  oled.drawString(0, 25, PresetName1);
-  oled.drawString(0, 45, PresetName2);
+  oled.setTextAlignment(TEXT_ALIGN_CENTER);
+  oled.drawString(64, 25, PresetName1);
+  oled.drawString(64, 45, PresetName2);
   
   
   oled.display();
@@ -250,7 +316,8 @@ void displayStartup() {
 void inputSetup() {
   // Setup callback for single press detection on all four input buttons
   for(int i = 0; i < NUM_OF_BUTTONS; i++) {
-    BTN_LIST[i].onPress(switchingPressHandler);
+    BTN_LIST[i].onPress(switchingPressHandler)
+    .onPressFor(switchingPressHandler, 1000); ;
   }
 }
 
@@ -305,6 +372,10 @@ void connectToAmp() {
       oled.display();
       
       delay(2000);
+
+      //Set inital Tone
+      PresetName="BangBang"; PresetName1="Bang Bang"; PresetName2="";
+      
       
       // Display inital Tone Preset Screen
       printPresetToOLED();
@@ -358,25 +429,21 @@ void loop() {
   }
 }
 
+void printDebug(String value){
+
+  if(!debug) return;
+
+    oled.clear();
+    oled.setFont(ArialMT_Plain_24);
+    oled.setTextAlignment(TEXT_ALIGN_CENTER);
+    oled.drawString(64, 6, value);
+    oled.display();
+    
+    delay(4000);
+}
+
+
 //Presets
-void SetPresetBangBang(boolean toggle_me) {
-  if (PresetName=="BangBang" and toggle_me) {SetPresetRHCP();return;}
-
-  PresetName="BangBang"; PresetName1="A Bang"; PresetName2="2 Bang";
-
-  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
-  FXModType="Tremolo"; FXModStatus[0]=FX_ON;
-  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_OFF;
-  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
-  
-  AmpType="BlackfaceDuo"; AmpGain=6; AmpVolume=6;
-  
-
-  printPresetToOLED();
-  print_preset_debug();
-
-  SerialBT.write(BangBangA,sizeof(BangBangA)); ReadSparkResponse();
-  SerialBT.write(BangBangB,sizeof(BangBangB)); ReadSparkResponse();
-  SerialBT.write(BangBangC,sizeof(BangBangC)); ReadSparkResponse();
-  SerialBT.write(BangBangD,sizeof(BangBangD)); ReadSparkResponse();
+void SetPresetBangBang() {
+ 
 }
