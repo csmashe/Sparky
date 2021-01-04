@@ -14,8 +14,43 @@ There has been talk of Justin building his version of the pedals for sale on htt
 * **Please check your specific ESP32 dev board pinouts if attempting to use this version.**
 
 
-## Basic Schematics:
+## Functionality
+This update allows the user to change the spark amp through a foot pedal to 18 diffrent tones. It also allows you to toggle your Over Drive, Reverb, Mod and Delay Pedals
+The tone list is updatable and will be built on over time.
+## Current Tone List
 
+1.  Bang Bang : Twin with Tremolo for the Nancy Sinatra classic, use with humbucker neck pickup *Decoded by Morgan West*
+2.  BB King : Strat position 8 works nicely (see 10 switch mod for Strat article soon...). Also good for Johnny B. Goode intro. *Decoded by Morgan West*
+3.  Better Call Saul : Based on the theme tune by Little Barrie. Use humbucker both pickups for in between sound. *Decoded by Morgan West*
+4.  Breezy Blues - Positive Grid default preset. *Decoded by Morgan West*
+5.  Bright Tweed - Positive Grid default preset. *Decoded by Morgan West*
+6.  Dancing In A Room - Attempt at the John Mayer Strat pos 4 sound. *Decoded by Morgan West*
+7.  Fuzzy Jam - Positive Grid default preset, good for the Eels Dog Faced Boy, use neck pickup. *Decoded by Morgan West*
+8.  Hendrix - Purpley and Hazely, bombastic with strat neck pickup. *Decoded by Morgan West*
+9.  Irish One - Homage to 8-dotted delay-tastic Edgeness. *Decoded by Morgan West*
+10. Le Freak - Nile Rodgers clean funk rhythm - use Strat pos 2. *Decoded by Morgan West*
+11. Red Hot Chilli Peppers - Frusciante's Under the Bridge clean Strat neck sound. *Decoded by Morgan West*
+12. Santana - Samba Pa Ti. *Decoded by Morgan West*
+13. Silver Ship - Positive Grid default preset. *Decoded by Morgan West*
+14. Spooky Melody - Positive Grid default preset. *Decoded by Morgan West*
+15. Stray Cat Strut - Brian Setzer slapped-back and cookin' - position 8 for Strat. *Decoded by Morgan West*
+16. Sultans of Swing - Swing with Knopfler - use Strat pos 2. *Decoded by Morgan West*
+17. Surf - AC 30 gritty, tremolo and plenty of reverb, use with single coil bridge pickup. Good for Rumble by Link Wray. *Decoded by Morgan West*
+18. Whole Lotta Love - Pagey style for rocking riffs. *Decoded by Morgan West*
+## Instructions
+Button 1: Toggle OverDrive.
+Button 2: Toggle Mod.
+Button 3: Toggle Delay.
+Button 4: Toggle Reverb.
+
+**Hold Button 1 for 1 second to enter tone select mode.**
+
+
+**Tone Select Mode Buttons**
+Button 1: Hold for 1 second to save selection to amp and exit tone select mode.
+Button 2: Previous Tone.
+Button 3: Next Tone.
+Button 4: Hold for 1 second to exit tone select mode without saving.
 ### ESP32 Schematic
 **In this code pins 4, 5, 18, and 19 are used for button input. Your ESP32 dev board's GPIO layout may be different, so please double-check after wiring and before running!**
 Drawing By Justin Nelson.

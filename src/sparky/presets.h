@@ -1,7 +1,7 @@
 // last modified 29/12/20
 // This file contains arrays of codes used to change presets and parameters
 
-#define presetArraySize 17
+#define presetArraySize 18
 //There has to be a better way to do this. 
 char *presetArray[presetArraySize] = { "BangBang", 
          "BBKing", 
@@ -16,6 +16,7 @@ char *presetArray[presetArraySize] = { "BangBang",
          "RHCP",
          "Santana",
          "SilverShip",
+         "SpookyMelody",
          "StrayCatStrut",
          "Sultans",
          "Surf",
@@ -35,6 +36,7 @@ char *presetArray[presetArraySize] = { "BangBang",
          "Red Hot Chilli Peppers",//RHCP
          "Santana",//Santana
          "Silver Ship",//SilverShip
+         "Spooky Melody",//SpookyMelody
          "Stray Cat Strut",//StrayCatStrut
          "Sultans of Swing",//Sultans
          "Surf",//Surf
@@ -53,6 +55,7 @@ char *presetArray[presetArraySize] = { "BangBang",
          "",//RHCP
          "",//Santana
          "",//SilverShip
+         "",//SpookyMelody
          "",//StrayCatStrut
          "",//Sultans
          "",//Surf
