@@ -25,24 +25,24 @@ This update allows the user to change the spark amp through a foot pedal to 18 d
 The tone list is updatable and will be built on over time.
 ## Current Tone List
 
-1.  Bang Bang : Twin with Tremolo for the Nancy Sinatra classic, use with humbucker neck pickup. *(Decoded by Morgan West)*
-2.  BB King : Strat position 8 works nicely (see 10 switch mod for Strat article soon...). Also good for Johnny B. Goode intro. *(Decoded by Morgan West)*
-3.  Better Call Saul : Based on the theme tune by Little Barrie. Use humbucker both pickups for in between sound. *(Decoded by Morgan West)*
-4.  Breezy Blues - Positive Grid default preset. *(Decoded by Morgan West)*
-5.  Bright Tweed - Positive Grid default preset. *(Decoded by Morgan West)*
-6.  Dancing In A Room - Attempt at the John Mayer Strat pos 4 sound. *(Decoded by Morgan West)*
-7.  Fuzzy Jam - Positive Grid default preset, good for the Eels Dog Faced Boy, use neck pickup. *(Decoded by Morgan West)*
-8.  Hendrix - Purpley and Hazely, bombastic with strat neck pickup. *(Decoded by Morgan West)*
-9.  Irish One - Homage to 8-dotted delay-tastic Edgeness. *(Decoded by Morgan West)*
-10. Le Freak - Nile Rodgers clean funk rhythm - use Strat pos 2. *(Decoded by Morgan West)*
-11. Red Hot Chilli Peppers - Frusciante's Under the Bridge clean Strat neck sound. *(Decoded by Morgan West)*
-12. Santana - Samba Pa Ti. *(Decoded by Morgan West)*
-13. Silver Ship - Positive Grid default preset. *(Decoded by Morgan West)*
-14. Spooky Melody - Positive Grid default preset. *(Decoded by Morgan West)*
-15. Stray Cat Strut - Brian Setzer slapped-back and cookin' - position 8 for Strat. *(Decoded by Morgan West)*
-16. Sultans of Swing - Swing with Knopfler - use Strat pos 2. *(Decoded by Morgan West)*
-17. Surf - AC 30 gritty, tremolo and plenty of reverb, use with single coil bridge pickup. Good for Rumble by Link Wray. *(Decoded by Morgan West)*
-18. Whole Lotta Love - Pagey style for rocking riffs. *(Decoded by Morgan West)*
+1.  **Bang Bang : **Twin with Tremolo for the Nancy Sinatra classic, use with humbucker neck pickup. *(Decoded by Morgan West)*
+2.  **BB King : **Strat position 8 works nicely (see 10 switch mod for Strat article soon...). Also good for Johnny B. Goode intro. *(Decoded by Morgan West)*
+3.  **Better Call Saul : **Based on the theme tune by Little Barrie. Use humbucker both pickups for in between sound. *(Decoded by Morgan West)*
+4.  **Breezy Blues : **Positive Grid default preset. *(Decoded by Morgan West)*
+5.  **Bright Tweed : **Positive Grid default preset. *(Decoded by Morgan West)*
+6.  **Dancing In A Room : **Attempt at the John Mayer Strat pos 4 sound. *(Decoded by Morgan West)*
+7.  **Fuzzy Jam : **Positive Grid default preset, good for the Eels Dog Faced Boy, use neck pickup. *(Decoded by Morgan West)*
+8.  **Hendrix : **Purpley and Hazely, bombastic with strat neck pickup. *(Decoded by Morgan West)*
+9.  **Irish One : **Homage to 8:dotted delay:tastic Edgeness. *(Decoded by Morgan West)*
+10. **Le Freak : **Nile Rodgers clean funk rhythm - use Strat pos 2. *(Decoded by Morgan West)*
+11. **Red Hot Chilli Peppers : **Frusciante's Under the Bridge clean Strat neck sound. *(Decoded by Morgan West)*
+12. **Santana : **Samba Pa Ti. *(Decoded by Morgan West)*
+13. **Silver Ship : **Positive Grid default preset. *(Decoded by Morgan West)*
+14. **Spooky Melody : **Positive Grid default preset. *(Decoded by Morgan West)*
+15. **Stray Cat Strut :** Brian Setzer slapped-back and cookin' : position 8 for Strat. *(Decoded by Morgan West)*
+16. **Sultans of Swing : **Swing with Knopfler - use Strat pos 2. *(Decoded by Morgan West)*
+17. **Surf : **AC 30 gritty, tremolo and plenty of reverb, use with single coil bridge pickup. Good for Rumble by Link Wray. *(Decoded by Morgan West)*
+18. **Whole Lotta Love :** Pagey style for rocking riffs. *(Decoded by Morgan West)*
 ## Instructions
 **Button 1:** Toggle OverDrive.
 
