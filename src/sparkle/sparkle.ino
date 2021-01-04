@@ -3,13 +3,13 @@
 //#include "SH1106Wire.h"
 #include "BluetoothSerial.h" // https://github.com/espressif/arduino-esp32
 #include "font.h"
-#include "spark.h"
 #include "presets.h"
 #include <BfButton.h> //https://github.com/mickey9801/ButtonFever
 
 // Device Info Definitions
 const String DEVICE_NAME = "Sparkel";
 const String VERSION = "0.3.1";
+const String SPARK_BT_NAME = "Spark 40 Audio";
 
 // Check ESP32 Bluetooth configuration
 #if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
@@ -59,6 +59,7 @@ byte FXModStatus[]={FX_OFF};
 byte FXDelayStatus[]={FX_OFF};
 byte FXReverbStatus[]={FX_OFF};
 bool SelectMode = false;
+int incomingBLEByte = 0;
 
 
 //Functions On Press Of One Of The 4 Buttons
@@ -112,11 +113,9 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
     }else{
       if(pattern == BfButton::LONG_PRESS && buttonId == 0){
         SelectMode = false;
-
-        printDebug("save preset");
-
-        //send command for change
-        //display use 
+        //printDebug("save preset");
+        SendPresetToAmp(PresetName);
+        printPresetToOLED();
       }
 
       if(buttonId == 1){
@@ -147,121 +146,41 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
 //Press The Previous Button in Select Mode
 void pressPrevious(){
 
-    if(PresetName == "BangBang"){
-        PresetName = "WholeLottaLove";
-        PresetName1 = "Whole Lotta Love";
-    }else if(PresetName == "BBKing"){
-        PresetName = "BangBang";
-        PresetName1 = "Bang Bang";
-    }else if(PresetName == "BetterCallSaul"){
-        PresetName = "BBKing";
-        PresetName1 = "BB King";
-    }else if(PresetName == "BreezyBlues"){
-        PresetName = "BetterCallSaul";
-        PresetName1 = "Better Call Saul";
-    }else if(PresetName == "BrightTweed"){
-        PresetName = "BreezyBlues";
-        PresetName1 = "Breezy Blues";
-    }else if(PresetName == "DancingInARoom"){
-        PresetName = "BrightTweed";
-        PresetName1 = "Bright Tweed";
-    }else if(PresetName == "FuzzyJam"){
-        PresetName = "DancingInARoom";
-        PresetName1 = "Dancing In A Room";
-    }else if(PresetName == "Hendrix"){
-        PresetName = "FuzzyJam";
-        PresetName1 = "Fuzzy Jam";
-    }else if(PresetName == "IrishOne"){
-        PresetName = "Hendrix";
-        PresetName1 = "Hendrix";
-    }else if(PresetName == "LeFreak"){
-        PresetName = "IrishOne";
-        PresetName1 = "Irish One";
-    }else if(PresetName == "RHCP"){
-        PresetName = "LeFreak";
-        PresetName1 = "Le Freak";
-    }else if(PresetName == "Santana"){
-        PresetName = "RHCP";
-        PresetName1 = "Red Hot Chilli Peppers";
-    }else if(PresetName == "SilverShip"){
-        PresetName = "Santana";
-        PresetName1 = "Santana";
-    }else if(PresetName == "StrayCatStrut"){
-        PresetName = "SilverShip";
-        PresetName1 = "Silver Ship";
-    }else if(PresetName == "Sultans"){
-        PresetName = "StrayCatStrut";
-        PresetName1 = "Stray Cat Strut";
-    }else if(PresetName == "Surf"){
-        PresetName = "Sultans";
-        PresetName1 = "Sultans of Swing";
-    }else if(PresetName == "WholeLottaLove"){
-        PresetName = "Surf";
-        PresetName1 = "Surf";
+  for (int i = presetArraySize; i --> 0; )
+  {
+      if(PresetName == presetArray[i]){
+        int arrayPosition = i;
+         if((i-1) == 0){
+           arrayPosition = presetArraySize;
+         }
+    
+         PresetName = presetArray[arrayPosition];
+         PresetName1 = presetDisplay1Array[arrayPosition];
+         PresetName2 = presetDisplay2Array[arrayPosition];
+         printPresetSelectScreen();
+         return;
+      }
     }
-
-    printPresetSelectScreen();
-  
+    
 }
 
 //Press The Next Button in Select Mode
 void pressNext(){
 
-    if(PresetName == "BangBang"){
-        PresetName = "BBKing";
-        PresetName1 = "BB King";
-    }else if(PresetName == "BBKing"){
-        PresetName = "BetterCallSaul";
-        PresetName1 = "Better Call Saul";
-    }else if(PresetName == "BetterCallSaul"){
-        PresetName = "BreezyBlues";
-        PresetName1 = "Breezy Blues";
-    }else if(PresetName == "BreezyBlues"){
-        PresetName = "BrightTweed";
-        PresetName1 = "Bright Tweed";
-    }else if(PresetName == "BrightTweed"){
-        PresetName = "DancingInARoom";
-        PresetName1 = "Dancing In A Room";
-    }else if(PresetName == "DancingInARoom"){
-        PresetName = "FuzzyJam";
-        PresetName1 = "Fuzzy Jam";
-    }else if(PresetName == "FuzzyJam"){
-        PresetName = "Hendrix";
-        PresetName1 = "Hendrix";
-    }else if(PresetName == "Hendrix"){
-        PresetName = "IrishOne";
-        PresetName1 = "Irish One";
-    }else if(PresetName == "IrishOne"){
-        PresetName = "LeFreak";
-        PresetName1 = "Le Freak";
-    }else if(PresetName == "LeFreak"){
-        PresetName = "RHCP";
-        PresetName1 = "Red Hot Chilli Peppers";
-    }else if(PresetName == "RHCP"){
-        PresetName = "Santana";
-        PresetName1 = "Santana";
-    }else if(PresetName == "Santana"){
-        PresetName = "SilverShip";
-        PresetName1 = "Silver Ship";
-    }else if(PresetName == "SilverShip"){
-        PresetName = "StrayCatStrut";
-        PresetName1 = "Stray Cat Strut";
-    }else if(PresetName == "StrayCatStrut"){
-        PresetName = "Sultans";
-        PresetName1 = "Sultans of Swing";
-    }else if(PresetName == "Sultans"){
-        PresetName = "Surf";
-        PresetName1 = "Surf";
-    }else if(PresetName == "Surf"){
-        PresetName = "WholeLottaLove";
-        PresetName1 = "Whole Lotta Love";
-    }else if(PresetName == "WholeLottaLove"){
-        PresetName = "BangBang";
-        PresetName1 = "Bang Bang";
+    for(int i = 0; i < presetArraySize; i++) {
+      if(PresetName == presetArray[i]){
+        int arrayPosition = i;
+         if((i+1) == presetArraySize){
+           arrayPosition = 0;
+         }
+    
+         PresetName = presetArray[arrayPosition];
+         PresetName1 = presetDisplay1Array[arrayPosition];
+         PresetName2 = presetDisplay2Array[arrayPosition];
+         printPresetSelectScreen();
+         return;
+      }
     }
-
-    printPresetSelectScreen();
-  
 }
 
 //Show The Preset Selection Screen
@@ -384,7 +303,7 @@ void connectToAmp() {
 
       //Set inital Tone
       PresetName="BangBang"; PresetName1="Bang Bang"; PresetName2="";
-      
+      SendPresetToAmp(PresetName);
       
       // Display inital Tone Preset Screen
       printPresetToOLED();
@@ -454,8 +373,38 @@ void printDebug(String value){
     delay(4000);
 }
 
+void ReadSparkResponse() {
+  delay(100);while (SerialBT.available()) {incomingBLEByte=SerialBT.read();} // Serial.print(incomingBLEByte,HEX);Serial.print(",");
+  //Serial.println("ReadSparkResponse END.");
+}
+
+void SendPresetToAmp(String which){
+  if (which == "BangBang")
+        SetPresetBangBang();
+   if (which =="BBKing")
+      SetPresetBBKing();
+     
+}
 
 //Presets
 void SetPresetBangBang() {
- 
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Tremolo"; FXModStatus[0]=FX_ON;
+  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(BangBangA,sizeof(BangBangA)); ReadSparkResponse();
+  SerialBT.write(BangBangB,sizeof(BangBangB)); ReadSparkResponse();
+  SerialBT.write(BangBangC,sizeof(BangBangC)); ReadSparkResponse();
+  SerialBT.write(BangBangD,sizeof(BangBangD)); ReadSparkResponse();
+}
+
+void SetPresetBBKing() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Phaser"; FXModStatus[0]=FX_OFF;
+  FXDelayType="EchoTape"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="RoomStudioA"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(BBKingA,sizeof(BBKingA)); ReadSparkResponse();
+  SerialBT.write(BBKingB,sizeof(BBKingB)); ReadSparkResponse();
+  SerialBT.write(BBKingC,sizeof(BBKingC)); ReadSparkResponse();
+  SerialBT.write(BBKingD,sizeof(BBKingD)); ReadSparkResponse();
 }
