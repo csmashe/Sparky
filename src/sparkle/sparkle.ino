@@ -46,7 +46,7 @@ BluetoothSerial SerialBT;
 // Device State Variables
 int selected_tone_preset;  //remove?
 bool connected;
-bool debug = true;
+bool debug = false;
 //new Variables
 char* PresetName; char* PresetName1; char* PresetName2;
 char* CurrentPresetName;  char* CurrentPresetName1; char* CurrentPresetName2;
@@ -79,7 +79,7 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
 
     if(!SelectMode){
       //if long press go into select mode
-      printDebug(String(pattern));
+      //printDebug(String(pattern));
       if(pattern == BfButton::LONG_PRESS && buttonId == 0){
         //printDebug("Long Press Select Mode");
         //store the current preset info for later
@@ -95,21 +95,18 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
 
       //toggle the fx
       if(buttonId == 0){
-        //toggle drive
-        printDebug("toggle drive");
+        DriveStatusToggle();
       }
       if(buttonId == 1){
-        //toggle mod
-        printDebug("toggle mod");
+        ModStatusToggle();
       }
       if(buttonId == 2){
-        //toggle delay
-        printDebug("toggle delay");
+        DelayStatusToggle();
       }
       if(buttonId == 3){
-        //toggle reverb
-        printDebug("toggle reverb");
+        ReverbStatusToggle();
       }
+       printPresetToOLED();  
     }else{
       if(pattern == BfButton::LONG_PRESS && buttonId == 0){
         SelectMode = false;
@@ -136,10 +133,8 @@ void switchingPressHandler (BfButton *btn, BfButton::press_pattern_t pattern) {
         PresetName2 = CurrentPresetName2;
         printPresetToOLED();  
       }
-      
-      
+           
     }
-
  
 }
 
@@ -149,11 +144,11 @@ void pressPrevious(){
   for (int i = presetArraySize; i --> 0; )
   {
       if(PresetName == presetArray[i]){
-        int arrayPosition = i;
-         if((i-1) == 0){
+        int arrayPosition = i-1;
+         if(arrayPosition == 0){
            arrayPosition = presetArraySize;
          }
-    
+         printDebug(String(arrayPosition));
          PresetName = presetArray[arrayPosition];
          PresetName1 = presetDisplay1Array[arrayPosition];
          PresetName2 = presetDisplay2Array[arrayPosition];
@@ -169,11 +164,11 @@ void pressNext(){
 
     for(int i = 0; i < presetArraySize; i++) {
       if(PresetName == presetArray[i]){
-        int arrayPosition = i;
-         if((i+1) == presetArraySize){
+        int arrayPosition = i + 1;
+         if(arrayPosition == presetArraySize){
            arrayPosition = 0;
          }
-    
+       
          PresetName = presetArray[arrayPosition];
          PresetName1 = presetDisplay1Array[arrayPosition];
          PresetName2 = presetDisplay2Array[arrayPosition];
@@ -201,10 +196,10 @@ void printPresetToOLED() {
   oled.clear();
 
   oled.setFont(ArialMT_Plain_16);
-  if (FXDriveStatus[0]==FX_ON) oled.drawString(0, 0, "Dr");
-  if (FXModStatus[0]==FX_ON) oled.drawString(25, 0, "Mod");
-  if (FXDelayStatus[0]==FX_ON) oled.drawString(65, 0, "Rev");
-  if (FXReverbStatus[0]==FX_ON) oled.drawString(105, 0, "Del");
+  if (FXDriveStatus[0]==FX_ON) oled.drawString(10, 0, "Dr");
+  if (FXModStatus[0]==FX_ON) oled.drawString(40, 0, "Mod");
+  if (FXDelayStatus[0]==FX_ON) oled.drawString(80, 0, "Rev");
+  if (FXReverbStatus[0]==FX_ON) oled.drawString(115, 0, "Del");
 
   //show the preset name
   oled.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -373,17 +368,84 @@ void printDebug(String value){
     delay(4000);
 }
 
+//Read Response From Spark
 void ReadSparkResponse() {
   delay(100);while (SerialBT.available()) {incomingBLEByte=SerialBT.read();} // Serial.print(incomingBLEByte,HEX);Serial.print(",");
   //Serial.println("ReadSparkResponse END.");
 }
 
+//Send Preset Values To Amp
 void SendPresetToAmp(String which){
   if (which == "BangBang")
         SetPresetBangBang();
    if (which =="BBKing")
       SetPresetBBKing();
      
+}
+
+//Toggle The Drive Status
+void DriveStatusToggle() {
+  Serial.print(FXDriveType);
+  
+  if (FXDriveStatus[0]==FX_ON) {FXDriveStatus[0]=FX_OFF;Serial.println("=OFF");}
+  else {FXDriveStatus[0]=FX_ON;Serial.println("=ON");}
+
+
+  if (FXDriveType=="TubeDrive") {SerialBT.write(TubeDriveCodes,sizeof(TubeDriveCodes));SerialBT.write(FXDriveStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDriveType=="Booster") {SerialBT.write(BoosterCodes,sizeof(BoosterCodes));SerialBT.write(FXDriveStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDriveType=="Fuzz") {SerialBT.write(FuzzCodes,sizeof(FuzzCodes));SerialBT.write(FXDriveStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDriveType=="OverDrive") {SerialBT.write(OverDriveCodes,sizeof(OverDriveCodes));SerialBT.write(FXDriveStatus,1);SerialBT.write(EndOfMessage,1);}
+
+  delay(500);
+}
+
+//Toggle The Mod Status
+void ModStatusToggle() {
+  Serial.print(FXModType);
+  
+  if (FXModStatus[0]==FX_ON) {FXModStatus[0]=FX_OFF;Serial.println("=OFF");}
+  else {FXModStatus[0]=FX_ON;Serial.println("=ON");}
+
+
+  if (FXModType=="Vibe") {SerialBT.write(VibeSwitchCodes,sizeof(VibeSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXModType=="DigitalChorus") {SerialBT.write(DigitalChorusSwitchCodes,sizeof(DigitalChorusSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXModType=="Tremolo") {SerialBT.write(TremoloSwitchCodes,sizeof(TremoloSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXModType=="Tremolator") {SerialBT.write(TremolatorSwitchCodes,sizeof(TremolatorSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXModType=="Phaser") {SerialBT.write(PhaserSwitchCodes,sizeof(PhaserSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXModType=="Cloner") {SerialBT.write(ClonerSwitchCodes,sizeof(ClonerSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXModType=="Flanger") {SerialBT.write(FlangerSwitchCodes,sizeof(FlangerSwitchCodes));SerialBT.write(FXModStatus,1);SerialBT.write(EndOfMessage,1);}
+
+  delay(500);
+}
+
+//Toggle The Delay Status  
+void DelayStatusToggle() {
+  Serial.print(FXDelayType);
+
+  if (FXDelayStatus[0]==FX_ON) {FXDelayStatus[0]=FX_OFF;Serial.println("=OFF");}
+  else {FXDelayStatus[0]=FX_ON;Serial.println("=ON");}
+
+  
+  if (FXDelayType=="DelayEcho") {SerialBT.write(DelayEchoCodes,sizeof(DelayEchoCodes));SerialBT.write(FXDelayStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDelayType=="DigitalDelay") {SerialBT.write(DigitalDelayCodes,sizeof(DigitalDelayCodes));SerialBT.write(FXDelayStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDelayType=="EchoTape") {SerialBT.write(EchoTapeCodes,sizeof(EchoTapeCodes));SerialBT.write(FXDelayStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDelayType=="VintageDelay") {SerialBT.write(VintageDelayCodes,sizeof(VintageDelayCodes));SerialBT.write(FXDelayStatus,1);SerialBT.write(EndOfMessage,1);}
+  else if (FXDelayType=="MultiHeadDelay") {SerialBT.write(MultiHeadDelayCodes,sizeof(MultiHeadDelayCodes));SerialBT.write(FXDelayStatus,1);SerialBT.write(EndOfMessage,1);}
+
+  delay(500);
+}
+
+//Toggle The Reverb Status 
+void ReverbStatusToggle() {
+  Serial.print(FXReverbType);
+  
+  if (FXReverbStatus[0]==FX_ON) {FXReverbStatus[0]=FX_OFF;Serial.println("=OFF");}
+  else {FXReverbStatus[0]=FX_ON;Serial.println("=ON");}
+
+  // Note - seems that this turns off all reverbs
+  SerialBT.write(ReverbCodes,sizeof(ReverbCodes));SerialBT.write(FXReverbStatus,1);SerialBT.write(EndOfMessage,1);
+
+  delay(500);
 }
 
 //Presets
