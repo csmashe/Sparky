@@ -44,26 +44,26 @@ The tone list is updatable and will be built on over time.
 17. Surf - AC 30 gritty, tremolo and plenty of reverb, use with single coil bridge pickup. Good for Rumble by Link Wray. *(Decoded by Morgan West)*
 18. Whole Lotta Love - Pagey style for rocking riffs. *(Decoded by Morgan West)*
 ## Instructions
-Button 1: Toggle OverDrive.
+**Button 1:** Toggle OverDrive.
 
-Button 2: Toggle Mod.
+**Button 2:** Toggle Mod.
 
-Button 3: Toggle Delay.
+**Button 3:** Toggle Delay.
 
-Button 4: Toggle Reverb.
+**Button 4:** Toggle Reverb.
 
 
 **Hold Button 1 for 1 second to enter tone select mode.**
 
 
 **Tone Select Mode Buttons**
-Button 1: Hold for 1 second to save selection to amp and exit tone select mode.
+**Button 1:** Hold for 1 second to save selection to amp and exit tone select mode.
 
-Button 2: Previous Tone.
+**Button 2:** Previous Tone.
 
-Button 3: Next Tone.
+**Button 3:** Next Tone.
 
-Button 4: Hold for 1 second to exit tone select mode without saving.
+**Button 4:** Hold for 1 second to exit tone select mode without saving.
 
 ## Other great projects used in the Sparky Pedal include:
 
