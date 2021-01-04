@@ -374,10 +374,41 @@ void ReadSparkResponse() {
 //Send Preset Values To Amp
 void SendPresetToAmp(String which){
   if (which == "BangBang")
-        SetPresetBangBang();
-   if (which =="BBKing")
+      SetPresetBangBang();
+  if (which =="BBKing")
       SetPresetBBKing();
-     
+  if (which =="BetterCallSaul")
+      SetPresetBetterCallSaul();
+  if (which =="BreezyBlues")
+      SetPresetBreezyBlues();
+  if (which =="BrightTweed")
+      SetPresetBrightTweed();
+  if (which =="DancingInARoom")
+      SetPresetDancingInARoom();
+  if (which =="FuzzyJam")
+      SetPresetFuzzyJam();
+  if (which =="Hendrix")
+      SetPresetHendrix();
+  if (which =="IrishOne")
+      SetPresetIrishOne();
+  if (which =="LeFreak")
+      SetPresetLeFreak();
+  if (which =="RHCP")
+      SetPresetRHCP();
+  if (which =="Santana")
+      SetPresetSantana();
+  if (which =="SilverShip")
+      SetPresetSilverShip();
+  if (which =="SpookyMelody")
+      SetPresetSpookyMelody();
+  if (which =="StrayCatStrut")
+      SetPresetStrayCatStrut();
+  if (which =="Sultans")
+      SetPresetSultans(); 
+  if (which =="Surf")
+      SetPresetSurf(); 
+  if (which =="WholeLottaLove")
+      SetPresetWholeLottaLove(); 
 }
 
 //Toggle The Drive Status
