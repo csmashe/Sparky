@@ -25,8 +25,8 @@ This update allows the user to change the spark amp through a foot pedal to 18 d
 The tone list is updatable and will be built on over time.
 ## Current Tone List
 
-1.  **Bang Bang :** Twin with Tremolo for the Nancy Sinatra classic, use with humbucker neck pickup. *(Decoded by Morgan West)*
-2.  **BB King :** Strat position 8 works nicely (see 10 switch mod for Strat article soon...). Also good for Johnny B. Goode intro. *(Decoded by Morgan West)*
+1.  <strong>Bang Bang :</strong> Twin with Tremolo for the Nancy Sinatra classic, use with humbucker neck pickup. *(Decoded by Morgan West)*
+2.  <strong>BB King :</strong> Strat position 8 works nicely (see 10 switch mod for Strat article soon...). Also good for Johnny B. Goode intro. *(Decoded by Morgan West)*
 3.  **Better Call Saul : **Based on the theme tune by Little Barrie. Use humbucker both pickups for in between sound. *(Decoded by Morgan West)*
 4.  **Breezy Blues : **Positive Grid default preset. *(Decoded by Morgan West)*
 5.  **Bright Tweed : **Positive Grid default preset. *(Decoded by Morgan West)*
