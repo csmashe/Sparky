@@ -44,10 +44,11 @@ BluetoothSerial SerialBT;
 
 
 // Device State Variables
-int selected_tone_preset;  //remove?
 bool connected;
-bool debug = false;
 //new Variables
+bool debug = false;
+bool ClonerSetToLow=true;
+bool SelectMode = false;
 char* PresetName; char* PresetName1; char* PresetName2;
 char* CurrentPresetName;  char* CurrentPresetName1; char* CurrentPresetName2;
 char* FXDriveType;
@@ -58,7 +59,6 @@ byte FXDriveStatus[]={FX_OFF};
 byte FXModStatus[]={FX_OFF};
 byte FXDelayStatus[]={FX_OFF};
 byte FXReverbStatus[]={FX_OFF};
-bool SelectMode = false;
 int incomingBLEByte = 0;
 
 
@@ -249,7 +249,6 @@ void btEventCallback(esp_spp_cb_event_t event, esp_spp_cb_param_t *param){
     // is resolved, this should keep your pedal and amp connected fairly well by forcing reconnection
     // in the main loop
     connected = false;
-    selected_tone_preset = 0;
   }
 }
 
@@ -328,8 +327,6 @@ void setup() {
 
   // Set initial device state values
   connected = false;
-  selected_tone_preset = 0;
-
   // Setup Device I/O
   inputSetup();
   displayStartup();
@@ -469,4 +466,189 @@ void SetPresetBBKing() {
   SerialBT.write(BBKingB,sizeof(BBKingB)); ReadSparkResponse();
   SerialBT.write(BBKingC,sizeof(BBKingC)); ReadSparkResponse();
   SerialBT.write(BBKingD,sizeof(BBKingD)); ReadSparkResponse();
+}
+
+void SetPresetBetterCallSaul() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Phaser"; FXModStatus[0]=FX_OFF;
+  FXDelayType="EchoTape"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(BetterCallSaulA,sizeof(BetterCallSaulA)); ReadSparkResponse();
+  SerialBT.write(BetterCallSaulB,sizeof(BetterCallSaulB)); ReadSparkResponse();
+  SerialBT.write(BetterCallSaulC,sizeof(BetterCallSaulC)); ReadSparkResponse();
+  SerialBT.write(BetterCallSaulD,sizeof(BetterCallSaulD)); ReadSparkResponse();
+}
+
+void SetPresetBreezyBlues() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="DigitalChorus"; FXModStatus[0]=FX_ON;
+  FXDelayType="MultiHeadDelay"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(BreezyBluesA,sizeof(BreezyBluesA)); ReadSparkResponse();
+  SerialBT.write(BreezyBluesB,sizeof(BreezyBluesB)); ReadSparkResponse();
+  SerialBT.write(BreezyBluesC,sizeof(BreezyBluesC)); ReadSparkResponse();
+  SerialBT.write(BreezyBluesD,sizeof(BreezyBluesD)); ReadSparkResponse();
+  SerialBT.write(BreezyBluesE,sizeof(BreezyBluesE)); ReadSparkResponse();
+}
+
+void SetPresetBrightTweed() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="DigitalChorus"; FXModStatus[0]=FX_ON;
+  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(BrightTweedA,sizeof(BrightTweedA)); ReadSparkResponse();
+  SerialBT.write(BrightTweedB,sizeof(BrightTweedB)); ReadSparkResponse();
+  SerialBT.write(BrightTweedC,sizeof(BrightTweedC)); ReadSparkResponse();
+  SerialBT.write(BrightTweedD,sizeof(BrightTweedD)); ReadSparkResponse();
+  SerialBT.write(BrightTweedE,sizeof(BrightTweedE)); ReadSparkResponse();
+}
+
+
+void SetPresetDancingInARoom() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="DigitalChorus"; FXModStatus[0]=FX_ON;
+  FXDelayType="DelayEcho"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="ClassicPlate"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(DancingA,sizeof(DancingA)); ReadSparkResponse();
+  SerialBT.write(DancingB,sizeof(DancingB)); ReadSparkResponse();
+  SerialBT.write(DancingC,sizeof(DancingC)); ReadSparkResponse();
+  SerialBT.write(DancingD,sizeof(DancingD)); ReadSparkResponse();
+  SerialBT.write(DancingE,sizeof(DancingE)); ReadSparkResponse();
+}
+
+
+void SetPresetFuzzyJam() {
+  FXDriveType="Fuzz"; FXDriveStatus[0]=FX_ON;
+  FXModType="Vibe"; FXModStatus[0]=FX_OFF;
+  FXDelayType="VintageDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(FuzzyJamA,sizeof(FuzzyJamA)); ReadSparkResponse();
+  SerialBT.write(FuzzyJamB,sizeof(FuzzyJamB)); ReadSparkResponse();
+  SerialBT.write(FuzzyJamC,sizeof(FuzzyJamC)); ReadSparkResponse();
+  SerialBT.write(FuzzyJamD,sizeof(FuzzyJamD)); ReadSparkResponse();
+}
+
+
+void SetPresetHendrix() {
+  FXDriveType="Fuzz"; FXDriveStatus[0]=FX_ON;
+  FXModType="DigitalChorus"; FXModStatus[0]=FX_ON;
+  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(HendrixA,sizeof(HendrixA)); ReadSparkResponse();
+  SerialBT.write(HendrixB,sizeof(HendrixB)); ReadSparkResponse();
+  SerialBT.write(HendrixC,sizeof(HendrixC)); ReadSparkResponse();
+  SerialBT.write(HendrixD,sizeof(HendrixD)); ReadSparkResponse();
+}
+
+void SetPresetIrishOne() {
+ 
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="Tremolo"; FXModStatus[0]=FX_OFF;
+  FXDelayType="MultiHeadDelay"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="RoomStudioA"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(IrishOneA,sizeof(IrishOneA)); ReadSparkResponse();
+  SerialBT.write(IrishOneB,sizeof(IrishOneB)); ReadSparkResponse();
+  SerialBT.write(IrishOneC,sizeof(IrishOneC)); ReadSparkResponse();
+  SerialBT.write(IrishOneD,sizeof(IrishOneD)); ReadSparkResponse();
+}
+
+void SetPresetLeFreak() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Phaser"; FXModStatus[0]=FX_OFF;
+  FXDelayType="EchoTape"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(LeFreakA,sizeof(LeFreakA)); ReadSparkResponse();
+  SerialBT.write(LeFreakB,sizeof(LeFreakB)); ReadSparkResponse();
+  SerialBT.write(LeFreakC,sizeof(LeFreakC)); ReadSparkResponse();
+  SerialBT.write(LeFreakD,sizeof(LeFreakD)); ReadSparkResponse();
+}
+
+void SetPresetRHCP() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="Tremolo"; FXModStatus[0]=FX_OFF;
+  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(RHCPA,sizeof(RHCPA)); ReadSparkResponse();
+  SerialBT.write(RHCPB,sizeof(RHCPB)); ReadSparkResponse();
+  SerialBT.write(RHCPC,sizeof(RHCPC)); ReadSparkResponse();
+  SerialBT.write(RHCPD,sizeof(RHCPD)); ReadSparkResponse();
+}
+
+void SetPresetSantana() {
+  FXDriveType="TubeDrive"; FXDriveStatus[0]=FX_ON;
+  FXModType="Tremolo"; FXModStatus[0]=FX_OFF;
+  FXDelayType="DigitalDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="PlateShort"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(SantanaA,sizeof(SantanaA)); ReadSparkResponse();
+  SerialBT.write(SantanaB,sizeof(SantanaB)); ReadSparkResponse();
+  SerialBT.write(SantanaC,sizeof(SantanaC)); ReadSparkResponse();
+  SerialBT.write(SantanaD,sizeof(SantanaD)); ReadSparkResponse();
+}
+
+void SetPresetSilverShip() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="Cloner"; FXModStatus[0]=FX_ON; ClonerSetToLow=true;
+  FXDelayType="VintageDelay"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(SilverShipA,sizeof(SilverShipA)); ReadSparkResponse();
+  SerialBT.write(SilverShipB,sizeof(SilverShipB)); ReadSparkResponse();
+  SerialBT.write(SilverShipC,sizeof(SilverShipC)); ReadSparkResponse();
+  SerialBT.write(SilverShipD,sizeof(SilverShipD)); ReadSparkResponse();
+}
+
+void SetPresetSpookyMelody() {
+  FXDriveType="TubeDrive"; FXDriveStatus[0]=FX_OFF;
+  FXModType="Vibe"; FXModStatus[0]=FX_ON;
+  FXDelayType="DelayEcho"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="Ambient"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(SpookyMelodyA,sizeof(SpookyMelodyA)); ReadSparkResponse();
+  SerialBT.write(SpookyMelodyB,sizeof(SpookyMelodyB)); ReadSparkResponse();
+  SerialBT.write(SpookyMelodyC,sizeof(SpookyMelodyC)); ReadSparkResponse();
+  SerialBT.write(SpookyMelodyD,sizeof(SpookyMelodyD)); ReadSparkResponse();
+  SerialBT.write(SpookyMelodyE,sizeof(SpookyMelodyE)); ReadSparkResponse();
+}
+
+void SetPresetStrayCatStrut() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Tremolator"; FXModStatus[0]=FX_OFF;
+  FXDelayType="EchoTape"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_OFF;
+  SerialBT.write(StrayCatStrutA,sizeof(StrayCatStrutA)); ReadSparkResponse();
+  SerialBT.write(StrayCatStrutB,sizeof(StrayCatStrutB)); ReadSparkResponse();
+  SerialBT.write(StrayCatStrutC,sizeof(StrayCatStrutC)); ReadSparkResponse();
+  SerialBT.write(StrayCatStrutD,sizeof(StrayCatStrutD)); ReadSparkResponse();
+}
+
+void SetPresetSultans() {  
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_OFF;
+  FXModType="Flanger"; FXModStatus[0]=FX_ON;
+  FXDelayType="VintageDelay"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="Chamber"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(SultansA,sizeof(SultansA)); ReadSparkResponse();
+  SerialBT.write(SultansB,sizeof(SultansB)); ReadSparkResponse();
+  SerialBT.write(SultansC,sizeof(SultansC)); ReadSparkResponse();
+  SerialBT.write(SultansD,sizeof(SultansD)); ReadSparkResponse();
+}
+
+
+void SetPresetSurf() {
+  FXDriveType="Booster"; FXDriveStatus[0]=FX_ON;
+  FXModType="Tremolo"; FXModStatus[0]=FX_ON;
+  FXDelayType="EchoTape"; FXDelayStatus[0]=FX_OFF;
+  FXReverbType="HallNatural"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(SurfA,sizeof(SurfA)); ReadSparkResponse();
+  SerialBT.write(SurfB,sizeof(SurfB)); ReadSparkResponse();
+  SerialBT.write(SurfC,sizeof(SurfC)); ReadSparkResponse();
+  SerialBT.write(SurfD,sizeof(SurfD)); ReadSparkResponse();
+}
+
+void SetPresetWholeLottaLove() {
+  FXDriveType="TubeDrive"; FXDriveStatus[0]=FX_ON;
+  FXModType="Tremolo"; FXModStatus[0]=FX_OFF;
+  FXDelayType="VintageDelay"; FXDelayStatus[0]=FX_ON;
+  FXReverbType="RoomStudioA"; FXReverbStatus[0]=FX_ON;
+  SerialBT.write(WholeLottaLoveA,sizeof(WholeLottaLoveA)); ReadSparkResponse();
+  SerialBT.write(WholeLottaLoveB,sizeof(WholeLottaLoveB)); ReadSparkResponse();
+  SerialBT.write(WholeLottaLoveC,sizeof(WholeLottaLoveC)); ReadSparkResponse();
+  SerialBT.write(WholeLottaLoveD,sizeof(WholeLottaLoveD)); ReadSparkResponse();
 }
