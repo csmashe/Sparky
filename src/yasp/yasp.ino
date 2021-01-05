@@ -7,7 +7,7 @@
 #include <BfButton.h> //https://github.com/mickey9801/ButtonFever
 
 // Device Info Definitions
-const String DEVICE_NAME = "Sparky";
+const String DEVICE_NAME = "YASP";
 const String VERSION = "0.3.1";
 const String SPARK_BT_NAME = "Spark 40 Audio";
 

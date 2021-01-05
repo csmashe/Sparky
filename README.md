@@ -1,4 +1,4 @@
-# Sparky 
+# Yet Another Spark Pedal 
 Bluetooth "Universal Remote" Foot pedal for Digital Guitar Amps, on ESP32. I originally built Justin Nelsons tinderbox pedal for my spark amp. I wanted to take it to the next level and allow more than just flipping through 4 presets. This is a merge of Justin's idea with the Spark Amp Foot Pedal V1. Build the pedal exactly how Justin has it and then use this code to expand on his idea.
 
 
@@ -83,7 +83,7 @@ The tone list is updatable and will be built on over time.
 
 **Button 4:** Hold for 1 second to exit tone select mode without saving.
 
-## Other great projects used in the Sparky Pedal include:
+## Other great projects used in the Yet Another Spark Pedal include:
 
 ### ESP32
 * ESP32 Arduino-Core:  https://github.com/espressif/arduino-esp32
@@ -95,7 +95,7 @@ The tone list is updatable and will be built on over time.
 
 ## License
 
-Copyright 2020 Sparky Pedal Project and Christopher Smashe
+Copyright 2020 Yet Another Spark Pedal Project and Christopher Smashe
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
